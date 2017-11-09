@@ -16,50 +16,60 @@ function snowMachine(n) {
     var pointForceCenter;
     var pointForce = 0;
 
-    var border = 0;
-
-    var posHelper; 
+    var posHelper;
 
     var machine = {
 
     }
 
-    init();
+
 
     function init() {
 
-        posHelper = createVector(0,0);
+        posHelper = createVector(0, 0);
 
         for (var i = 0; i < quantity; i++) {
             flakeSize.push(random(minFlakeSize, maxFlakeSize));
-            xPosition.push(random(-border, width + border));
-            yPosition.push(random(-border, height + border));
+            xPosition.push(random(0, width));
+            yPosition.push(random(0, height));
             direction.push(round(random(0, 1)));
             age.push(0);
         }
+
+        machine.setCenter(width/2,height/2);
     }
 
-    machine.setFlakeSize = function(min,max){
-      minFlakeSize = min;
-      maxFlakeSize = max;
+    machine.setFlakeWeight = function(val) {
+        yBooster = val;
     }
 
-    machine.setPointForceCenter = function(x, y) {
+    machine.setFlakeSize = function(min, max) {
+        minFlakeSize = min;
+        maxFlakeSize = max;
+
+        for (var i = 0; i < flakeSize.length; i++) {
+          flakeSize[i] = random(minFlakeSize, maxFlakeSize);
+        }
+
+    }
+
+    machine.setCenter = function(x, y) {
         pointForceCenter = createVector(width / 2, height / 2);
     }
 
-    machine.setPointForce = function(val){
-        pointForce = val;
+    machine.setPointForce = function(val) {
+        //scaling the value, as pointForce needs to be a small value
+        pointForce = 0.1 * val;
     };
 
-    machine.setLinearForce = function(val){
-      linearForce = val;
-      if(linearForce==0){
-        border = 0;
-      }
-      else {
-        border = 300;
-      }
+    machine.setLinearForce = function(val) {
+        linearForce = val;
+        // if(linearForce==0){
+        //   border = 0;
+        // }
+        // else {
+        //   border = 300;
+        // }
     }
 
     machine.draw = function() {
@@ -92,18 +102,49 @@ function snowMachine(n) {
 
             age[i]++;
 
-            if (xPosition[i] > width + flakeSize[i] + border || xPosition[i] < -flakeSize[i] - border || yPosition[i] > height + flakeSize[i] + border) {
-                xPosition[i] = random(-border, width + border);
-                yPosition[i] = -flakeSize[i] - border;
+            if (xPosition[i] > width + flakeSize[i]) {
+                if (pointForce > 0) {
+                    xPosition[i] = random(0, width);
+                    yPosition[i] = random(-flakeSize[i], pointForceCenter.y);
+                    age[i] = 0;
+                } else {
+                    xPosition[i] = -flakeSize[i];
+                }
+            } else if (xPosition[i] < -flakeSize[i]) {
 
                 if (pointForce > 0) {
+                    xPosition[i] = random(0, width);
                     yPosition[i] = random(-flakeSize[i], pointForceCenter.y);
+                    age[i] = 0;
+                } else {
+                    xPosition[i] = width + flakeSize[i];
+                }
+            } else if (yPosition[i] > height + flakeSize[i]) {
+
+                if (pointForce > 0) {
+                    xPosition[i] = random(0, width);
+                    yPosition[i] = random(-flakeSize[i], pointForceCenter.y);
+                    age[i] = 0;
+                } else {
+                    yPosition[i] = -flakeSize[i];
                 }
                 age[i] = 0;
             }
 
+            // if (xPosition[i] > width + flakeSize[i] + border || xPosition[i] < -flakeSize[i] - border || yPosition[i] > height + flakeSize[i] + border) {
+            //     xPosition[i] = random(-border, width + border);
+            //     yPosition[i] = -flakeSize[i] - border;
+
+            //     if (pointForce > 0) {
+            //         yPosition[i] = random(-flakeSize[i], pointForceCenter.y);
+            //     }
+            //     age[i] = 0;
+            // }
+
         }
     }
+
+    init();
 
     return machine;
 
