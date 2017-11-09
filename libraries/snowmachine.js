@@ -1,36 +1,39 @@
-//snow library based on https://www.openprocessing.org/sketch/395389
+function snowMachine(){
+  "use strict";
+  //snow library based on https://www.openprocessing.org/sketch/395389
+  var quantity = 500;
+  var xPosition = [];
+  var yPosition = [];
+  var flakeSize = [];
+  var direction = [];
+  var age = [];
+  var minFlakeSize = 2;
+  var maxFlakeSize = 5;
+  var linearForce = 0;
+  var appearTime = 10;
+  var yBooster = 0.1;
 
-var quantity = 500;
-var xPosition = [];
-var yPosition = [];
-var flakeSize = [];
-var direction = [];
-var age = [];
-var minFlakeSize = 2;
-var maxFlakeSize = 5;
-var linearForce = 0;
-var appearTime = 10;
-var yBooster = 0.1;
+  var pointForceCenter; 
+  var pointForce = 0;
 
-var pointForceCenter; 
-var pointForce = 0;
+  var border = 200;
 
-var border = 200;
+  var machine = {
 
-var slider;
+  }
+
+  machine.setPointForceCenter = function(x,y){
+     pointForceCenter = createVector(width/2,height/2);
+  }
+
+
+}
+
 
 function setup() {
   
-  console.log('setup');
-  createCanvas(800, 600);
-  frameRate(30);
-  noStroke();
 
-
-  slider = createSlider(0,100,0);
-  slider.position(20,20);
-
-  pointForceCenter = createVector(width/2,height/2);
+ 
 
   
   for(var i = 0; i < quantity; i++) {
