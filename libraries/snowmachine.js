@@ -131,16 +131,6 @@ function snowMachine(n) {
                 age[i] = 0;
             }
 
-            // if (xPosition[i] > width + flakeSize[i] + border || xPosition[i] < -flakeSize[i] - border || yPosition[i] > height + flakeSize[i] + border) {
-            //     xPosition[i] = random(-border, width + border);
-            //     yPosition[i] = -flakeSize[i] - border;
-
-            //     if (pointForce > 0) {
-            //         yPosition[i] = random(-flakeSize[i], pointForceCenter.y);
-            //     }
-            //     age[i] = 0;
-            // }
-
         }
     }
 
